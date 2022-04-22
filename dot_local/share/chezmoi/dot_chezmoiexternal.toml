@@ -1,0 +1,23 @@
+# zsh Plugins
+["powerlevel10k"]
+    type = "git-repo"
+    url = "https://github.com/romkatv/powerlevel10k.git"
+    refreshPeriod = "168h"
+    ["powerlevel10k".clone]
+       args = ["--depth=1"]
+
+["zsh-syntax-highlighting"]
+    type = "git-repo"
+    url = "https://github.com/zsh-users/zsh-syntax-highlighting.git"
+    refreshPeriod = "168h"
+
+["zsh-autoswitch-virtualenv"]
+    type = "git-repo"
+    url = "https://github.com/MichaelAquilina/zsh-autoswitch-virtualenv.git"
+    refreshPeriod = "168h"
+
+# tmux Plugins
+[".tmux/plugins/tpm"]
+    type = "git-repo"
+    url = "https://github.com/tmux-plugins/tpm.git"
+    refreshPeriod = "168h"
