@@ -1,16 +1,13 @@
 #Load Powerlevel10k
 source ~/powerlevel10k/powerlevel10k.zsh-theme
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# Use homebrew stuff
-export PATH="$HOME/bin:/usr/local/bin:/usr/local/opt/curl/bin:$PATH"
+export PATH="$HOME/bin:/usr/local/bin:$PATH"
 
-#Plugins
+#ZSH Plugins
 #zsh-users/zsh-syntax-highlighting
 source ~/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
 #MichaelAquilina/zsh-autoswitch-virtualenv
@@ -24,6 +21,7 @@ export LANG="en_US.UTF-8"
 if [ -e ~/.localalias ];then
         source ~/.localalias
 fi
+
 # Share history between sessions
 setopt share_history
 
@@ -31,7 +29,9 @@ setopt share_history
 alias tmove="tmux detach && tmux attach"
 alias tma="tmux attach-session -t"
 alias tnew="tmux new-session -d -s $1"
-#Vagrant
+
+
+{{ if lookPath "vagrant" }}
 alias vd="vagramt destroy"
 alias vg="vagrant global-status"
 alias vh="vagrant halt $1"
@@ -39,9 +39,12 @@ alias vr="vagrant ssh $1 -c 'sudo su -'"
 alias vs="vagrant status"
 alias vssh="vagrant ssh $1"
 alias vu="vagrant up $1"
+{{ end }}
+
 #GOLANG Stuff
 export GOPATH=$HOME/workspace/go
 export PATH=$GOPATH/bin:$PATH
+
 #Git Alias
 alias gps="git push -u"
 alias gpl="git pull"
@@ -50,38 +53,26 @@ alias gprune="git remote prune origin"
 alias uncommit="reset --soft HEAD^"
 alias unstage="reset"
 alias staged="diff --cached"
-if [[ -a $(which gh) ]]
-then
-    alias gpr="gh pr create"
-    alias gpl="gh repo sync"
-    alias gci="gh pr checks"
-fi
 cdt() {
     cd `git rev-parse --show-toplevel`
 }
-#General Shell stuff
-alias ll="ls -alht"
-alias wq="exit"
-alias :wq="exit"
+
+
+{{ if lookPath "gh" }}
+alias gpr="gh pr create"
+alias gpl="gh repo sync"
+alias gci="gh pr checks"
+{{ end }}
+
+
 unset GREP_OPTIONS
 alias grep="grep --color=auto --exclude-dir=.cvs --exclude-dir=.git --exclude-dir=.hg --exclude-dir=.svn"
-#Vim selection
-if [[ -a $(which nvim) ]]; then
-    alias vim="nvim"
-    export EDITOR=nvim
-elif [ -f "/usr/local/bin/vim" ]; then
-   alias vim="/usr/local/bin/vim"
-   export EDITOR=vim
-fi
-if [ `uname` = "Darwin" ]; then
-    alias sshKeyUnlock="eval `ssh-agent -s` ; ssh-add -K"
-else
-    alias  sshKeyUnlock="eval `ssh-agent -s` ; ssh-add"
-fi
 
-# nnn config
-export NNN_OPTS="eEnrx"
-export NNN_TMPFILE='/tmp/.lastd'
+{{ if lookPath "nvim" }}
+alias vim="nvim"
+export EDITOR=nvim
+
+{{ end }}
 
 #Fix tab completion weirdness
 export LC_ALL=en_US.UTF-8
@@ -101,12 +92,6 @@ s_client() {
 view_cert() {
     openssl x509 -in $1 -noout -text
 }
-# Copy and paste from terminal to clipboard
-if [[ `uname` == "Linux" ]]; then
-    alias clip="xclip -i -selection clipboard"
-elif [[ `uname` == "Darwin" ]]; then
-    alias clip="pbcopy"
-fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -125,4 +110,17 @@ export CDPATH=".:$HOME/.bookmarks:/"
 alias goto="cd -P"
 
 bindkey -e
+
+
+{{ if eq .chezmoi.os "darwin" }}
+alias clip="pbcopy"
+alias sshKeyUnlock="eval `ssh-agent -s` ; ssh-add -K"
+# Use homebrew curl
+export PATH="/usr/local/opt/curl/bin:$PATH"
+
+{{ else if eq .chezmoi.os "linux" }}
+alias clip="xclip -i -selection clipboard
+alias  sshKeyUnlock="eval `ssh-agent -s` ; ssh-add"
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+{{ end }}
