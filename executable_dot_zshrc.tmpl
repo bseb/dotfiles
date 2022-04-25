@@ -30,8 +30,8 @@ alias tmove="tmux detach && tmux attach"
 alias tma="tmux attach-session -t"
 alias tnew="tmux new-session -d -s $1"
 
-
 {{ if lookPath "vagrant" }}
+# Vagrant
 alias vd="vagramt destroy"
 alias vg="vagrant global-status"
 alias vh="vagrant halt $1"
@@ -57,13 +57,11 @@ cdt() {
     cd `git rev-parse --show-toplevel`
 }
 
-
 {{ if lookPath "gh" }}
 alias gpr="gh pr create"
 alias gpl="gh repo sync"
 alias gci="gh pr checks"
 {{ end }}
-
 
 unset GREP_OPTIONS
 alias grep="grep --color=auto --exclude-dir=.cvs --exclude-dir=.git --exclude-dir=.hg --exclude-dir=.svn"
@@ -71,7 +69,6 @@ alias grep="grep --color=auto --exclude-dir=.cvs --exclude-dir=.git --exclude-di
 {{ if lookPath "nvim" }}
 alias vim="nvim"
 export EDITOR=nvim
-
 {{ end }}
 
 #Fix tab completion weirdness
@@ -110,7 +107,6 @@ export CDPATH=".:$HOME/.bookmarks:/"
 alias goto="cd -P"
 
 bindkey -e
-
 
 {{ if eq .chezmoi.os "darwin" }}
 alias clip="pbcopy"
