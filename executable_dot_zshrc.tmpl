@@ -115,7 +115,7 @@ alias sshKeyUnlock="eval `ssh-agent -s` ; ssh-add -K"
 export PATH="/usr/local/opt/curl/bin:$PATH"
 
 {{ else if eq .chezmoi.os "linux" }}
-alias clip="xclip -i -selection clipboard
+alias clip="xclip -i -selection clipboard"
 alias  sshKeyUnlock="eval `ssh-agent -s` ; ssh-add"
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
