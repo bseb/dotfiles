@@ -105,7 +105,9 @@ if [ ! -d "$HOME/.bookmarks" ]; then
 fi
 export CDPATH=".:$HOME/.bookmarks:/"
 alias goto="cd -P"
-
+bookmark() {
+    ln -s `pwd` ~/.bookmarks/@$1
+}
 bindkey -e
 
 {{ if eq .chezmoi.os "darwin" }}
