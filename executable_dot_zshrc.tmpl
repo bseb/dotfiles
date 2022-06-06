@@ -115,6 +115,7 @@ alias clip="pbcopy"
 alias sshKeyUnlock="eval `ssh-agent -s` ; ssh-add -K"
 # Use homebrew curl
 export PATH="/usr/local/opt/curl/bin:$PATH"
+eval `/opt/homebrew/bin/brew shellenv`
 
 {{ else if eq .chezmoi.os "linux" }}
 alias clip="xclip -i -selection clipboard"
