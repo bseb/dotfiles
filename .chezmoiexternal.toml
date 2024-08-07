@@ -1,3 +1,9 @@
+# vim plugin manager
+[".config/nvim/autoload/vim-plug"]
+    type = "git-repo"
+    url  = "https://github.com/junegunn/vim-plug.git"
+    refreshPeriod = "168h"
+
 # zsh Plugins
 ["powerlevel10k"]
     type = "git-repo"

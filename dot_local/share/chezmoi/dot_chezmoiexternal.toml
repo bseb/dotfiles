@@ -1,5 +1,5 @@
 # vim plugin manager
-[.config/nvim/autoload/vim-plug]
+[".config/nvim/autoload/vim-plug"]
     type = "git-repo"
     url  = "https://github.com/junegunn/vim-plug.git"
     refreshPeriod = "168h"
