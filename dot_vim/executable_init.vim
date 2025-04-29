@@ -22,38 +22,35 @@ command W :execute ':silent w !sudo tee % > /dev/null' | :edit!
 "backspace should behave like backspace
 :set backspace=indent,eol,start
 
+set tabstop=4 shiftwidth=4
+let mapleader = "\<Space>"
+let maplocalleader = "\<Space>"
+
 "remamp esc to jj and jk
 imap jj <Esc>
 imap jk <Esc>
 "########
 "Plugins#
 "#######
-"Start Vim-plug
-call plug#begin()
-"Plugins
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-surround'
-Plug 'ourigen/skyline.vim'
-Plug 'chase/vim-ansible-yaml'
-Plug 'plasticboy/vim-markdown'
-Plug 'ntpeters/vim-better-whitespace'
-Plug 'junegunn/fzf'
-Plug 'junegunn/fzf.vim'
-Plug 'airblade/vim-gitgutter'
-Plug 'stephpy/vim-yaml'
-Plug 'jamessan/vim-gnupg'
-Plug 'robertbasic/vim-hugo-helper'
-Plug 'neovim/nvim-lspconfig'
-Plug 'luukvbaal/nnn.nvim'
-Plug 'ms-jpq/coq_nvim', {'branch': 'coq'}
-Plug 'ms-jpq/coq.artifacts', {'branch': 'artifacts'}
-Plug 'williamboman/nvim-lsp-installer'
-
-
+call plug#begin('~/.vim/plugged')
+  Plug 'tpope/vim-fugitive'
+  Plug 'tpope/vim-surround'
+  Plug 'nvim-lualine/lualine.nvim'
+  Plug 'preservim/vim-markdown'
+  Plug 'ntpeters/vim-better-whitespace'
+  Plug 'junegunn/fzf'
+  Plug 'junegunn/fzf.vim'
+  Plug 'airblade/vim-gitgutter'
+  Plug 'jamessan/vim-gnupg'
+  Plug 'robertbasic/vim-hugo-helper'
+  Plug 'neovim/nvim-lspconfig'
+  Plug 'williamboman/mason.nvim'
+  Plug 'williamboman/mason-lspconfig.nvim'
+  Plug 'luukvbaal/nnn.nvim'
+  Plug 'ms-jpq/coq_nvim', {'branch': 'coq'}
+  Plug 'ms-jpq/coq.artifacts', {'branch': 'artifacts'}
 call plug#end()
 
-set tabstop=4 shiftwidth=4
-let mapleader = "\<Space>"
 
 "###########
 "Navigation#
@@ -85,15 +82,28 @@ nnoremap <Leader>0 :10b<CR>
 "#################
 "#Plugin Settings#
 "#################
+" Lua config for lualine
+lua << EOF
+require('lualine').setup {
+  options = { theme = 'gruvbox', section_separators = '', component_separators = '' }
+}
+EOF
 
-"Skyline
-let g:skyline_fugitive = 1
-"Fugitive
-set statusline=%{fugitive#statusline()}
-"Ansible
-au BufRead,BufNewFile */ansible/*.yml set filetype=ansible
-au BufRead,BufNewFile */ansible/*.yaml set filetype=ansible
-let g:ansible_unindent_after_newline = 1
+" Mason core
+lua << EOF
+require('mason').setup()
+
+-- ensure these are installed; tweak to your needs
+require('mason-lspconfig').setup {
+  ensure_installed = { 'pyright', 'tsserver', 'bashls', 'gopls' },
+}
+
+-- auto-configure each server with default settings
+local lspconfig = require('lspconfig')
+for _, srv in ipairs({'pyright','tsserver','bashls','gopls'}) do
+  lspconfig[srv].setup {}
+end
+EOF
 
 " fzf.vim
 let g:fzf_files_options =
