@@ -125,6 +125,14 @@ function! NumberToggle()
 endfunc
 " Toggle between normal and relative numbering.
 nnoremap <leader>r :call NumberToggle()<cr>
+" opens a bottom split at 1/3 height and starts a terminal
+function! OpenBottomTerm()
+  let h = float2nr(winheight(0) / 3)
+  execute 'botright ' . h . 'split'
+  terminal
+endfunction
+
+nnoremap <silent> <leader>t :call OpenBottomTerm()<CR>
 
 au BufNewFile,BufRead *.markdown,*.mdown,*.mkd,*.mkdn,*.mdwn,*.md  set ft=markdown
 
