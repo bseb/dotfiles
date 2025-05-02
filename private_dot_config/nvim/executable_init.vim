@@ -95,12 +95,12 @@ require('mason').setup()
 
 -- ensure these are installed; tweak to your needs
 require('mason-lspconfig').setup {
-  ensure_installed = { 'pyright', 'tsserver', 'bashls', 'gopls' },
+  ensure_installed = { 'pyright', 'bashls', 'gopls' },
 }
 
 -- auto-configure each server with default settings
 local lspconfig = require('lspconfig')
-for _, srv in ipairs({'pyright','tsserver','bashls','gopls'}) do
+for _, srv in ipairs({'pyright','bashls','gopls'}) do
   lspconfig[srv].setup {}
 end
 EOF
