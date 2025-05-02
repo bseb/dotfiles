@@ -143,7 +143,7 @@ sign define LspDiagnosticsSignError text=🔴
 sign define LspDiagnosticsSignWarning text=🟠
 sign define LspDiagnosticsSignInformation text=🔵
 sign define LspDiagnosticsSignHint text=🟢
-luafile ~/.vim/lsp_config.lua
+luafile ~/.config/nvim/lsp_config.lua
 " nnn-vim
 map <F2> :NnnExplorer<CR>
 lua << EOF
