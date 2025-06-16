@@ -6,8 +6,8 @@ TUNNEL="NO TUNNEL"
 ip link show | grep proton &> /dev/null
 
 if [[ $? -eq 0 ]]; then
-	IP= $(curl icanhazip.com)
-	TUNNEL="PROTONVPN: ${IP}"
+        IP=$(curl -s icanhazip.com)
+        TUNNEL="PROTONVPN: ${IP}"
 fi
 
 for x in {0..5}; do
